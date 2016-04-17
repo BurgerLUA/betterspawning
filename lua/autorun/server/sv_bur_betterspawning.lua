@@ -6,7 +6,7 @@ function BS_GetPlayers()
 	
 	for k,v in pairs(Players) do
 		if not v:Alive() then
-			table.remove(k)
+			table.remove(Players,k)
 		end
 	end
 	
