@@ -33,12 +33,9 @@ function BS_MovePlayerToBetterSpawn(ply)
 			end
 		end
 		
-		--print(v,TotalDistance)
-		
 		if SelectedSpawnDistance < TotalDistance then
 			SelectedSpawn = v
 			SelectedSpawnDistance = TotalDistance
-			print("BETTER!")
 		end
 
 	end
