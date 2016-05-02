@@ -1,5 +1,3 @@
-
-
 function BS_GetPlayers()
 
 	local Players = player.GetAll()
@@ -14,10 +12,12 @@ function BS_GetPlayers()
 
 end
 
+local SizeOfBurgersDick = math.huge
+
 function BS_MovePlayerToBetterSpawn(ply)
 
 	local GAMEMODE = gmod.GetGamemode()
-	local ValidSpawns = GAMEMODE.SpawnPoints
+	local ValidSpawns = table.Copy(GAMEMODE.SpawnPoints)
 	local SelectedSpawn = nil
 	local SelectedSpawnDistance = -1
 	local Players = BS_GetPlayers()
@@ -26,23 +26,32 @@ function BS_MovePlayerToBetterSpawn(ply)
 	for k,v in pairs(ValidSpawns) do
 	
 		local TotalDistance = 0
+		local MinimumDistance = SizeOfBurgersDick
 
 		if Players and PlayersCount > 0 then
 			for l,b in pairs(Players) do
-				TotalDistance = TotalDistance + b:GetPos():Distance(v:GetPos())
+				local Distance = b:GetPos():Distance(v:GetPos())
+				TotalDistance = TotalDistance + Distance
+				if MinimumDistance > Distance then
+					MinimumDistance = Distance
+				end
 			end
 		end
-		
-		if SelectedSpawnDistance < TotalDistance then
+
+		if SelectedSpawnDistance < TotalDistance and MinimumDistance > 1024 then
 			SelectedSpawn = v
 			SelectedSpawnDistance = TotalDistance
 		end
 
 	end
 	
-	ply:SetPos(SelectedSpawn:GetPos())
-	ply:SetEyeAngles(SelectedSpawn:GetAngles())
-
+	if SelectedSpawn then
+		ply:SetPos(SelectedSpawn:GetPos())
+		ply:SetEyeAngles(SelectedSpawn:GetAngles())
+	else
+		ply:KillSilent()
+	end
+	
 end
 
 hook.Add("PlayerSpawn","BS_MovePlayerToBetterSpawn",BS_MovePlayerToBetterSpawn)
