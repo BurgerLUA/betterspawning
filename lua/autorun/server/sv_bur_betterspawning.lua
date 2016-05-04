@@ -29,6 +29,7 @@ function BS_MovePlayerToBetterSpawn(ply)
 		local MinimumDistance = SizeOfBurgersDick
 
 		if Players and PlayersCount > 0 then
+		
 			for l,b in pairs(Players) do
 				local Distance = b:GetPos():Distance(v:GetPos())
 				TotalDistance = TotalDistance + Distance
@@ -36,9 +37,10 @@ function BS_MovePlayerToBetterSpawn(ply)
 					MinimumDistance = Distance
 				end
 			end
+			
 		end
 
-		if (MinimumDistance > 1024) or not SelectedSpawn then
+		if ( (MinimumDistance > 1024) and (TotalDistance > SelectedSpawnDistance) ) or not SelectedSpawn then
 			SelectedSpawn = v
 			SelectedSpawnDistance = TotalDistance
 		end
