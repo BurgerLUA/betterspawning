@@ -32,13 +32,13 @@ function BS_MovePlayerToBetterSpawn(ply)
 			for l,b in pairs(Players) do
 				local Distance = b:GetPos():Distance(v:GetPos())
 				TotalDistance = TotalDistance + Distance
-				if MinimumDistance > Distance then
+				if (MinimumDistance > Distance) then
 					MinimumDistance = Distance
 				end
 			end
 		end
 
-		if SelectedSpawnDistance < TotalDistance and MinimumDistance > 1024 then
+		if (MinimumDistance > 1024) or not SelectedSpawn then
 			SelectedSpawn = v
 			SelectedSpawnDistance = TotalDistance
 		end
@@ -50,6 +50,7 @@ function BS_MovePlayerToBetterSpawn(ply)
 		ply:SetEyeAngles(SelectedSpawn:GetAngles())
 	else
 		ply:KillSilent()
+		ply:ChatPrint("Tell Burger that he's a fucking dumb piece of shit nigger")
 	end
 	
 end
