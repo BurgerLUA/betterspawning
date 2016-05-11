@@ -1,6 +1,5 @@
 local TeamMode = false
 
-
 function BS_GetPlayers()
 
 	local Players = player.GetAll()
@@ -112,5 +111,42 @@ function BS_AddSpawnToList(ply,SelectedSpawn)
 
 end
 
-
 hook.Add("PlayerSpawn","BS_MovePlayerToBetterSpawn",BS_MovePlayerToBetterSpawn)
+
+function BS_EnableSpawnProtection(ply)
+	timer.Simple(0, function()
+		if ply:Alive() then
+			ply:SetMaterial("debug/env_cubemap_model")
+			ply:GodEnable()
+			ply.SpawnImmunityTime = CurTime() + 3
+			ply.SpawnProtectionEnabled = true
+		end
+	end)
+end
+
+hook.Add( "PlayerSpawn", "BS_EnableSpawnProtection", BS_EnableSpawnProtection )
+
+function BS_SpawnProtectionThink()
+	for k,ply in pairs(player.GetAll()) do
+		if ply:Alive() == true then
+			if ply.SpawnProtectionEnabled then
+				if ply.SpawnImmunityTime <= CurTime() then
+					ply:ChatPrint("Your spawn protection has worn off.")
+					ply.SpawnProtectionEnabled = false
+					ply:GodDisable()
+				end
+				if ply:KeyDown(IN_ATTACK) and ply.SpawnImmunityTime - 1 <= CurTime() then
+					ply:ChatPrint("Your spawn protection has worn off.")
+					ply.SpawnProtectionEnabled = false
+					ply:GodDisable()
+				end	
+			elseif not ply.SpawnProtectionEnabled then
+				ply:SetMaterial("")
+			end
+		end
+	end
+end
+
+hook.Add( "Think", "BS_SpawnProtectionThink", BS_SpawnProtectionThink )
+
+
