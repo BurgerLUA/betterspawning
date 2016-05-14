@@ -135,7 +135,7 @@ function BS_SpawnProtectionThink()
 					ply.SpawnProtectionEnabled = false
 					ply:GodDisable()
 				end
-				if ply:KeyDown(IN_ATTACK) and ply.SpawnImmunityTime - 1 <= CurTime() then
+				if ply.SpawnImmunityTime - 1 <= CurTime() then
 					ply:ChatPrint("Your spawn protection has worn off.")
 					ply.SpawnProtectionEnabled = false
 					ply:GodDisable()
