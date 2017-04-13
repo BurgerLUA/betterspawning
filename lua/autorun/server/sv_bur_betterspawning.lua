@@ -92,7 +92,7 @@ function BS_MovePlayerToBetterSpawn(ply)
 		BS_AddSpawnToList(ply,SelectedSpawn)
 	else
 		ply:KillSilent()
-		ply:ChatPrint("Tell Burger that he's a fucking dumb piece of shit nigger")
+		ply:ChatPrint("Tell Burger that he's a fucking dumb piece of shit")
 	end
 	
 end
